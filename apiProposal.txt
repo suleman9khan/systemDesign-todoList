@@ -2,3 +2,69 @@ Assumptions:
 
 1. User will first create a todolist, then add tasks to it (todolist will exist in db before tasks are added for the first time)
 2. The above also goes for tasks and subtask relationship
+3. Corner cases and exception handling done through meaningful Http Error Codes - 202, 300, 400, 500
+
+
+
+--- Create Requests ---
+
+POST /todolist
+<- {'id_user': 'Suleman', 'priority': '3', 'title': 'First Todolist'}
+-> {'id_todolist': '1'}
+
+POST /task/{id_todolist}
+<- {'description': 'First Task', 'priority': '3'}
+-> {'id_task': '1'}
+
+POST /subtask/{id_task}
+<- {'description': 'First Subtask'}
+-> {'id_subtask': '1'}
+
+--- Get Requests  ---
+
+// will return all the todolists for a user
+GET /todolist/{id_user}
+-> {
+	'todolists': [
+		{'id_todolist': '1', 'is_done': 'False', 'priority':'3', 'title': 'First Todolist'},
+    {'id_todolist': '2', 'is_done': 'True', 'priority':'1', 'title': 'Second Todolist'},
+	]
+}
+
+// will return all the tasks for a specific todolist
+GET /task/{id_todolist}
+-> {
+	'tasks': [
+		{'id_task': '1', 'is_done': 'False', 'priority':'3', 'description': 'First Task'},
+	]
+}
+
+// will return all the subtasks for a specific task
+GET /subtask/{id_task}
+-> {
+	'subtasks': [
+		{'id_subtask': '1', 'is_done': 'False', 'description': 'First Task'},
+	]
+}
+
+--- Update Requests ---
+
+PATCH /todolist/{id_todolist}
+<- {'title': ... , 'is_done':, 'priority':...}
+-> status codes
+
+same as above for tasks and subtasks
+
+
+PATCH /changePriority
+<- {'type': one of ['todolist', 'task'], 'id': '1'}
+-> status codes
+
+
+--- Delete Requests ---
+sql cascade feature: if a todolist is deleted, the relevant tasks and subtasks will also be deleted due to casacade
+
+DELETE /todolist/{id_todolist}
+DELETE /task/{id_task}
+DELETE /subtask/{id_subtask}
+
