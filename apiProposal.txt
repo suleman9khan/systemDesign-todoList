@@ -1,0 +1,4 @@
+Assumptions:
+
+1. User will first create a todolist, then add tasks to it (todolist will exist in db before tasks are added for the first time)
+2. The above also goes for tasks and subtask relationship
