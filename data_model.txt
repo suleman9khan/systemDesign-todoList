@@ -1,0 +1,34 @@
+Tables: Users, Todolists, Tasks, Subtasks
+
+Users:
+  id_user: int, auto_increment, primary_key
+  name: varchar(30), not null
+  
+Todolist:
+  id_todolist: int, auto_increment, primary_key
+  id_user: foreign_key from Users
+  title: varchar(30), not null
+  is_done: bool, not null, default: False
+  priority: int, not nullable # (0 -> low, 1 -> medium, 2 -> high)
+  created_at: timestamp, default: current_timestamp
+  updated_at: timestamp, default: current_timestamp, on update current_timestamp
+  deleted_at: timestamp, default: Null
+
+Task:
+  id_task: int, auto_increment, primary_key
+  id_todolist: foreign_key from Todolist
+  description: varchar(30), not null
+  is_done: bool, not null, default: False
+  priority: int, not nullable # (0 -> low, 1 -> medium, 2 -> high)
+  created_at: timestamp, default: current_timestamp
+  updated_at: timestamp, default: current_timestamp, on update current_timestamp
+  deleted_at: timestamp, default: Null
+  
+Subtask:
+  id_subtask: int, auto_increment, primary_key
+  id_task: foreign_key from Task
+  description: varchar(30), not null
+  is_done: bool, not null, default: False
+  created_at: timestamp, default: current_timestamp
+  updated_at: timestamp, default: current_timestamp, on update current_timestamp
+  deleted_at: timestamp, default: Null
